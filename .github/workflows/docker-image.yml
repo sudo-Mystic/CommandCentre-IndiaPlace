@@ -19,4 +19,4 @@ jobs:
     - name: Delete already running image
       run: docker rm placeindia-commander-container  
     - name: Build the Docker image
-      run: docker run --name placeindia-commander-container -e PASSWORD="${{secrets.npm_token}}" -p 80:3987 -d placeindia-commander:latest
+      run: docker run --name placeindia-commander-container -e PASSWORD="${{secrets.upload_pass}}" -p 80:3987 -d placeindia-commander:latest
