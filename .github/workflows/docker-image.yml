@@ -15,4 +15,21 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+      run: docker build . --file Dockerfile --tag placeindia-commander:$(date +%s)
+  stop:
+
+    runs-on: self-hosted
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Stop already running image
+      run: docker stop placeindia-commander-container
+
+  run-docker:
+
+    runs-on: self-hosted
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build the Docker image
+      run: docker run --name placeindia-commander-container -v /_Work/maps:/usr/src/app/maps -p 49160:3987 -d placeindia-commander:latest
