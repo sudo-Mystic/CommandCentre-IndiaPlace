@@ -9,11 +9,9 @@ const multer = require('multer')
 const upload = multer({ dest: `${__dirname}/uploads/` });
 
 const VALID_COLORS = ['#BE0039', '#FF4500', '#FFA800', '#FFD635', '#00A368', '#00CC78', '#7EED56', '#00756F', '#009EAA', '#2450A4', '#3690EA', '#51E9F4', '#493AC1', '#6A5CFF', '#811E9F', '#B44AC0', '#FF3881', '#FF99AA', '#6D482F', '#9C6926', '#000000', '#898D90', '#D4D7D9', '#FFFFFF'];
-const corsOptions = {
-  origin: 'https://indiaplace-commandserver.onrender.com/',
-};
 
-app.use(cors(corsOptions));
+
+app.use(cors());
 var appData = {
     currentMap: 'blank.png',
     mapHistory: [
