@@ -122,7 +122,7 @@ app.post('/updateorders', upload.single('image'), async (req, res) => {
         }
 
         if (pixels.data.length !== 4 * 2000 * 3000)
-            return lib.handleUpdateError(req, res, 'The file must be 2000x3000 pixels!');
+            return lib.handleUpdateError(req, res, 'The file must be 2000x3000 1ixels!');
 
         let orders = [];
         for (var i = 0; i < 2000*3000; i++) {
@@ -152,7 +152,7 @@ app.post('/updateorders', upload.single('image'), async (req, res) => {
 
         fs.writeFileSync(`${__dirname}/orders/${jsonFile}`, JSON.stringify(orders));
 
-        let reason = req.body?.reason || "No Reason Given";
+        let reason = req.body?.reason || "Důvod neuveden";
         let uploader = req.body?.uploader;
 
         appData.currentOrders = jsonFile;
