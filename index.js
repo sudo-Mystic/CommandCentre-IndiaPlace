@@ -38,6 +38,12 @@ app.get('/api/stats', (req, res) => {
         date: Date.now()
     });
 });
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  next();
+})
 
 app.post('/updateorders', upload.single('image'), async (req, res) => {
     if (!req.body.reason || !req.body.password || req.body.password != process.env.PASSWORD) {
