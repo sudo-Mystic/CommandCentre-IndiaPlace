@@ -5,6 +5,9 @@ const ws = require('ws');
 const lib = require('./lib.js');
 const { randomUUID } = require('crypto');
 
+const moment = require('moment-timezone');
+const INDIAN_TIMEZONE = 'Asia/Kolkata';
+
 const app = express();
 const getPixels = require('get-pixels');
 const safeCompare = require('safe-compare');
@@ -89,24 +92,33 @@ let brandUsage = {};
 let userCount = 0;
 
 app.get('/api/stats', (req, res) => {
+    const currentTime = moment().tz(INDIAN_TIMEZONE); // Get the current time in India's timezone
+
     res.json({
         activeConnectionCount: userCount,
         rawConnectionCount: wsServer.clients.size,
         pixelsPlaced: appData.pixelsPlaced,
         brandUsage: brandUsage,
-        date: Date.now()
+        date: currentTime.format(), // Convert the timestamp to India's timezone and store it as a string
     });
 });
 
+
 app.get('/api/map', (req, res) => {
+    const currentTime = moment().tz(INDIAN_TIMEZONE); // Get the current time in India's timezone
+
     res.json({
         currentMap: appData.currentMap,
         orders: appData.currentOrders,
         orderLength: appData.orderLength,
-        mapHistory: recentHistory,
-        date: Date.now()
+        mapHistory: recentHistory.map(entry => ({
+            ...entry,
+            date: moment(entry.date).tz(INDIAN_TIMEZONE).format() // Convert each timestamp in mapHistory to India's timezone
+        })),
+        date: currentTime.format(), // Convert the timestamp to India's timezone and store it as a string
     });
 });
+
 
 app.post('/updateorders', upload.single('image'), async (req, res) => {
     if (!req.body || !req.body?.password || !safeCompare(req.body.password, process.env.PASSWORD))
